@@ -1,4 +1,4 @@
-const { getProductsModel, createProductModel, editProductModel, deleteProductModel } = require('../models/productsModel');
+const { getProductsModel, createProductModel, editProductModel, deleteProductModel } = require('../models/productsModel.js');
 
 async function getProducts(req, res) {
     try {
@@ -26,11 +26,11 @@ async function editProduct(req, res) {
     const { id, name, price, description } = req.body;
 
     try {
-        const [result] = await editProductModel(id, name, price, description);
-        if (result.affectedRows > 0) {
+        const result = await editProductModel(id, name, price, description);
+        if (result) {
             return res.status(200).json({ message: "Product updated successfully" });
         } else {
-            res.status(404).json({ message: "Product not found" });
+            return res.status(404).json({ message: "Product not found" });
         }
     } catch (error) {
         console.error("Error editing product:", error);
@@ -42,11 +42,11 @@ async function deleteProduct(req, res) {
     const { id } = req.body;
 
     try {
-        const [result] = await deleteProductModel(id);
-        if (result.affectedRows > 0) {
+        const result = await deleteProductModel(id);
+        if (result) {
             return res.status(200).json({ message: "Product deleted successfully" });
         } else {
-            res.status(404).json({ message: "Product not found" });
+            return res.status(404).json({ message: "Product not found" });
         }
     } catch (error) {
         console.error("Error deleting product:", error);

@@ -10,7 +10,7 @@ productRoutes.get('/', async (req, res) => {
 productRoutes.post('/', async (req, res) => {
     const Error = validatePost(req, res); 
     if (Error) return;
-    await createProduct(req, res)
+    await createProduct(req, res);
 });
 productRoutes.put('/', async (req, res) => {
     const Error = validatePut(req, res); 

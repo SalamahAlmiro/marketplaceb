@@ -14,7 +14,8 @@ async function getProductsModel() {
 async function createProductModel(productName, productPrice, productDescription) {
     try {
         const [results] = await database.promise().query('INSERT INTO products (name, price, description) VALUES (?, ?, ?)',
-                [productName, productPrice, productDescription]);
+                [productName, productPrice, productDescription]
+            );
         console.log("Product Inserted");
         return results.insertId;  
     } catch (error) {
@@ -25,21 +26,35 @@ async function createProductModel(productName, productPrice, productDescription)
 async function editProductModel(productId, newName, newPrice, newDescription) {
     try {
         const [results] = await database.promise().query('UPDATE products SET name = ?, price = ?, description = ? WHERE id = ?', 
-            [newName, newPrice, newDescription, productId]);
+            [newName, newPrice, newDescription, productId]
+        );
+        if (results.affectedRows === 0) {
+            console.log("No product found with the given ID.");
+            return false;
+        }
+
         console.log("Product Edited");
-        return results;
+        return true;
     } catch (error) {
-        throw new Error("Server error editing products");
+        console.error("Database error:", error);
+        return false;
     }
 }
 
 async function deleteProductModel(productId) {
     try {
-        const [results] = await database.promise().query('DELETE FROM products WHERE id = ?', [productId]);
+        const [results] = await database.promise().query('DELETE FROM products WHERE id = ?', [productId]
+        );
+        if (results.affectedRows === 0) {
+            console.log("No product found with the given ID.");
+            return false;
+        }
+
         console.log(" Product deleted.");
-        return results;
+        return true;
     } catch (error) {
-        throw new Error("Server error deleting products");
+        console.error("Database error:", error);
+        return false;
     }
 }
 

@@ -20,7 +20,8 @@ const deleteProductSchema = Joi.object({
 function validatePost(req, res) {
     const { error } = postProductSchema.validate(req.body);
     if (error) {
-        return res.status(400).json({ message: error.details[0].message });
+        res.status(400).json({ message: error.details[0].message });
+        return true;
     }
     return false;
 }
@@ -28,7 +29,8 @@ function validatePost(req, res) {
 function validatePut(req, res) {
     const { error } = putProductSchema.validate(req.body);
     if (error) {
-        return res.status(400).json({ message: error.details[0].message });
+        res.status(400).json({ message: error.details[0].message });
+        return true;
     }
     return false;
 }
@@ -36,7 +38,8 @@ function validatePut(req, res) {
 function validateDelete(req, res) {
     const { error } = deleteProductSchema.validate(req.body);
     if (error) {
-        return res.status(400).json({ message: error.details[0].message });
+        res.status(400).json({ message: error.details[0].message });
+        return true;
     }
     return false;
 }
