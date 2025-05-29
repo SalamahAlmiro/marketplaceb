@@ -16,7 +16,7 @@ pool.getConnection((err, connection) => {
         console.error("Database connection failed:", err);
         process.exit(1);  
     } else {
-        console.log("Connected to MySQL!");
+        console.log('\x1b[32m%s\x1b[0m' ,"Connected to MySQL");
         connection.release();  
     }
 });

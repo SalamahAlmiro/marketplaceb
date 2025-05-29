@@ -15,6 +15,8 @@ async function createProduct(req, res) {
 
     try {
         const productId = await createProductModel(name, price, description);
+        req.io.emit("product_created", { id: productId, name, price, description });
+        console.log("Creation Emitted")
         return res.status(201).json({ message: "Product created successfully", productId });
     } catch (error) {
         console.error("Error creating product:", error);
@@ -28,6 +30,8 @@ async function editProduct(req, res) {
     try {
         const result = await editProductModel(id, name, price, description);
         if (result) {
+            req.io.emit("product_updated", { id, name, price, description });
+            console.log("Update Emitted")
             return res.status(200).json({ message: "Product updated successfully" });
         } else {
             return res.status(404).json({ message: "Product not found" });
@@ -44,6 +48,8 @@ async function deleteProduct(req, res) {
     try {
         const result = await deleteProductModel(id);
         if (result) {
+            req.io.emit("product_deleted", { id });
+            console.log("Deletion Emitted")
             return res.status(200).json({ message: "Product deleted successfully" });
         } else {
             return res.status(404).json({ message: "Product not found" });
