@@ -1,9 +1,10 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
 const router = require('./api/router');
-
 const app = express();
 const server = http.createServer(app); 
 
@@ -23,7 +24,7 @@ app.use((req, res, next) => {
 app.use('/api', router);
 
 io.on('connection', (socket) => {
-    console.log('A client connected:', socket.id);
+    console.log('client connected:', socket.id);
   
     socket.on('disconnect', () => {
       console.log('Client disconnected:', socket.id);

@@ -7,7 +7,7 @@ async function getProductsModel() {
         console.log("Products fetched");
         return results;
     } catch (error) {
-        throw new Error("Server error fetching products");
+        throw error;
     }
 }
 
@@ -19,7 +19,7 @@ async function createProductModel(productName, productPrice, productDescription)
         console.log("Product Inserted");
         return results.insertId;  
     } catch (error) {
-        throw new Error("Server error inserting Product"); 
+        throw error; 
     }
 }
 
@@ -36,8 +36,7 @@ async function editProductModel(productId, newName, newPrice, newDescription) {
         console.log("Product Edited");
         return true;
     } catch (error) {
-        console.error("Database error:", error);
-        return false;
+        throw error;
     }
 }
 
@@ -53,8 +52,7 @@ async function deleteProductModel(productId) {
         console.log(" Product deleted.");
         return true;
     } catch (error) {
-        console.error("Database error:", error);
-        return false;
+        throw error;
     }
 }
 
