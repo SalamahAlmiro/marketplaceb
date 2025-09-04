@@ -11,11 +11,11 @@ async function getProducts(req, res) {
 }
 
 async function createProduct(req, res) {
-    const { name, price, description } = req.body;
+    const { name, price, description, category, image_url, user_id } = req.body;
 
     try {
-        const productId = await createProductModel(name, price, description);
-        req.io.emit("product_created", { id: productId, name, price, description });
+        const productId = await createProductModel(name, price, description, category, image_url, user_id);
+        req.io.emit("product_created", { id: productId, name, price, description, category, image_url, user_id });
         console.log("Creation Emitted")
         return res.status(201).json({ message: "Product created successfully", productId });
     } catch (error) {

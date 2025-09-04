@@ -4,6 +4,7 @@ const { validatePost, validatePut, validateDelete } = require('../middlewares/pr
 const { getProducts, createProduct, editProduct, deleteProduct } = require('../controllers/productsController');
 const verifyToken = require('../middlewares/authMiddleware');
 
+
 productRoutes.get('/', async (req, res) => {
     getProducts(req, res);
 });

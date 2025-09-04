@@ -11,10 +11,10 @@ async function getProductsModel() {
     }
 }
 
-async function createProductModel(productName, productPrice, productDescription) {
+async function createProductModel(productName, productPrice, productDescription, productCategory, productImgUrl, userId) {
     try {
-        const [results] = await database.promise().query('INSERT INTO products (name, price, description) VALUES (?, ?, ?)',
-                [productName, productPrice, productDescription]
+        const [results] = await database.promise().query('INSERT INTO products (name, price, description, category, image_url, user_id) VALUES (?, ?, ?, ?, ?, ?)',
+                [productName, productPrice, productDescription, productCategory, productImgUrl, userId]
             );
         console.log("Product Inserted");
         return results.insertId;  
