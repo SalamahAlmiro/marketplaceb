@@ -16,8 +16,7 @@ const postProductSchema = Joi.object({
     price: Joi.number().positive().precision(2).required(),
     description: Joi.string().min(10).max(500).required(),
     category : Joi.string().valid("Books", "Games", "Electronics", "Clothing", "Toys", "Home & Kitchen", "Beauty", "Sports", "Art & Collectibles", "Music").required(),
-    //image_url: Joi.string().uri().pattern(/\.(jpg|jpeg|png|gif|webp|bmp)$/i).required(),
-    image_url: Joi.string().uri().required(),
+    image_url: Joi.string().uri().pattern(/\.(jpg|jpeg|png|gif|webp|bmp)$/i).required(),
     user_id: Joi.number().positive().required(),
 });
 

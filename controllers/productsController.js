@@ -25,10 +25,10 @@ async function createProduct(req, res) {
 }
 
 async function editProduct(req, res) {
-    const { id, name, price, description } = req.body;
-
+    const { id, name, price, description, category, image_url, user_id } = req.body;
+    const x = 3;
     try {
-        const result = await editProductModel(id, name, price, description);
+        const result = await editProductModel(id, name, price, description, category, image_url, x);
         if (result) {
             req.io.emit("product_updated", { id, name, price, description });
             console.log("Update Emitted")

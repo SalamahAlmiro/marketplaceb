@@ -23,10 +23,10 @@ async function createProductModel(productName, productPrice, productDescription,
     }
 }
 
-async function editProductModel(productId, newName, newPrice, newDescription) {
+async function editProductModel(productId, newName, newPrice, newDescription, newCategory, image_url, user_id) {
     try {
-        const [results] = await database.promise().query('UPDATE products SET name = ?, price = ?, description = ? WHERE id = ?', 
-            [newName, newPrice, newDescription, productId]
+        const [results] = await database.promise().query('UPDATE products SET name = ?, price = ?, description = ?, category = ?, image_url = ?, user_id = ? WHERE id = ?', 
+            [newName, newPrice,  newDescription, newCategory, image_url, user_id, productId]
         );
         if (results.affectedRows === 0) {
             console.log("No product found with the given ID.");

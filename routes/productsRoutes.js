@@ -20,9 +20,9 @@ productRoutes.put('/', verifyToken, async (req, res) => {
     if (Error) return;
     await editProduct(req, res);
 });
-
+    
 productRoutes.delete('/', verifyToken, async (req, res) => {
-    const Error = validateDelete(req, res); 
+    const Error = validateDelete(req, res);
     if (Error) return;
     await deleteProduct(req, res);
 });
