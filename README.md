@@ -1,48 +1,62 @@
-**MarketplaceB** is the backend API for the NightMarkt marketplace application.
+# marketplaceb
 
----
+REST API backend for [nightmarkt](https://github.com/SalamahAlmiro/nightmarkt), a marketplace web application. Built with Node.js, Express, and MySQL.
 
-##  Stack
+## Features
 
-- **Node.js** with **Express**  
-- **MySQL** for data storage  
-- **JWT** for authentication  
-- **bcrypt** for password hashing  
-- **Joi** for request validation
+- JWT authentication (register/login) with bcrypt password hashing
+- Product CRUD with server-side validation (Joi schemas) on all write endpoints
+- Real-time updates via Socket.IO — connected clients are notified instantly when a product is created, edited, or deleted
+- Custom product attributes support
+- Route-level auth middleware protecting all write operations
 
----
+## Tech stack
 
-##  Features
+Node.js, Express, MySQL (`mysql2`), Socket.IO, JSON Web Tokens, bcrypt, Joi
 
-- **User authentication**: register, login, logout with JWT-based session  
-- **Product CRUD**: create, read, update, delete products (protected routes for authenticated users)  
-- **Input validation** using Joi to prevent bad data  
-- **Token-protected routes** via middleware  
-- **Error handling** for duplicate user/email, invalid credentials, and missing products  
+## Getting started
 
----
+```bash
+npm install
+cp .env.example .env   # fill in your DB credentials and a JWT secret
+npm start
+```
 
-##  Getting Started
+The server runs on `http://localhost:5001` by default.
 
-###  Prerequisites
+You'll need a local MySQL instance with a `marketplace` database and `products` / `users` tables matching the schema used in `models/`.
 
-- Node.js (v16+)
-- MySQL (running locally or remote)
-- [Optional] Postman for testing API endpoints
+## API overview
 
-###  Setup steps
+| Method | Route | Auth required | Description |
+|---|---|---|---|
+| POST | `/api/auth/register` | No | Register a new user |
+| POST | `/api/auth/login` | No | Log in and receive a JWT |
+| GET | `/api/products` | No | List all products |
+| POST | `/api/products` | Yes | Create a product |
+| PUT | `/api/products` | Yes | Edit a product |
+| DELETE | `/api/products` | Yes | Delete a product |
+| POST | `/api/products/:productId/attribute` | Yes | Add custom attributes to a product |
+| PUT | `/api/users/editUser` | — | Edit user details |
+| DELETE | `/api/users/deleteUser` | — | Delete a user |
 
-1. Clone the repo:
-   git clone https://github.com/SalamahAlmiro/marketplaceb.git
-   cd marketplaceb
-2. Install dependencies:
-  npm install
-3. Copy .env.example to .env and configure:
-  DB_HOST=localhost
-  DB_USER=root
-  DB_PASS=your_password
-  DB_NAME=marketplace
-  JWT_SECRET=your_secret_key
-  JWT_EXPIRATION=1h
-4. Set up the database, run the SQL script or create the schema manually
-5. Start the server user npm start
+Authenticated routes expect an `Authorization: Bearer <token>` header.
+
+## Real-time events
+
+The server emits the following Socket.IO events to all connected clients:
+
+- `product_created`
+- `product_updated`
+- `product_deleted`
+
+## Project structure
+
+```
+api/          Route aggregation
+controllers/  Request handlers
+middlewares/  Auth and request validation
+models/       Database queries (mysql2)
+routes/       Express route definitions
+utils/        Helper functions (JWT signing)
+```
