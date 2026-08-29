@@ -15,7 +15,7 @@ async function createProduct(req, res) {
 
     try {
         const productId = await createProductModel(name, price, description, category, image_url, user_id);
-        req.io.emit("product_created", { id: productId, name, price, description, category, image_url, user_id });
+        req.io?.emit("product_created", { id: productId, name, price, description, category, image_url, user_id });
         console.log("Creation Emitted")
         return res.status(201).json({ message: "Product created successfully", productId });
     } catch (error) {
@@ -26,11 +26,10 @@ async function createProduct(req, res) {
 
 async function editProduct(req, res) {
     const { id, name, price, description, category, image_url, user_id } = req.body;
-    const x = 3;
     try {
-        const result = await editProductModel(id, name, price, description, category, image_url, x);
+        const result = await editProductModel(id, name, price, description, category, image_url, user_id);
         if (result) {
-            req.io.emit("product_updated", { id, name, price, description });
+            req.io?.emit("product_updated", { id, name, price, description });
             console.log("Update Emitted")
             return res.status(200).json({ message: "Product updated successfully" });
         } else {
@@ -48,7 +47,7 @@ async function deleteProduct(req, res) {
     try {
         const result = await deleteProductModel(id);
         if (result) {
-            req.io.emit("product_deleted", { id });
+            req.io?.emit("product_deleted", { id });
             console.log("Deletion Emitted")
             return res.status(200).json({ message: "Product deleted successfully" });
         } else {

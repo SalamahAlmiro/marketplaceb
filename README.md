@@ -64,3 +64,11 @@ models/       Database queries (mysql2)
 routes/       Express route definitions
 utils/        Helper functions (JWT signing)
 ```
+
+## Running tests
+
+This project uses Jest and Supertest for API testing, with a separate test database to avoid touching dev data.
+
+1. Create a `marketplace_test` database and run `migrations/schema.sql` against it
+2. Copy `.env` to `.env.test` and change `DB_NAME` to `marketplace_test`
+3. Run `npm test`
