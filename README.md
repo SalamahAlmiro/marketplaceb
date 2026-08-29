@@ -24,7 +24,11 @@ npm start
 
 The server runs on `http://localhost:5001` by default.
 
-You'll need a local MySQL instance with a `marketplace` database and `products` / `users` tables matching the schema used in `models/`.
+Run the migrations/schema.sql file to migrate all needed tables. 
+
+```bash
+mysql -u root -p marketplace < migrations/schema.sql
+```
 
 ## API overview
 
