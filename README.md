@@ -72,3 +72,9 @@ This project uses Jest and Supertest for API testing, with a separate test datab
 1. Create a `marketplace_test` database and run `migrations/schema.sql` against it
 2. Copy `.env` to `.env.test` and change `DB_NAME` to `marketplace_test`
 3. Run `npm test`
+
+## Running with Docker
+
+1. Create a `.env` file in the project root with `DB_PASSWORD` and `JWT_SECRET` set
+2. Run `docker compose up --build`
+3. The API will be available at `http://localhost:5001`
