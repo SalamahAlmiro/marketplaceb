@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+const db = require('./config/db');
 const http = require('http');
 const { Server } = require('socket.io');
 const app = require('./app');
@@ -21,6 +22,16 @@ io.on('connection', (socket) => {
       console.log('Client disconnected:', socket.id);
     });
   });
+
+app.get('/health', async (req, res) => {
+  try {
+    await db.promise().query('SELECT 1');
+    res.sendStatus(200);
+  } catch (err) {
+    console.error('Database health check failed:', err);
+    res.sendStatus(503);
+  }
+});
 
 const PORT = 5001;
 server.listen(PORT, () => {
