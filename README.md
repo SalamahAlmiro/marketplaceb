@@ -14,21 +14,28 @@ REST API backend for [nightmarkt](https://github.com/SalamahAlmiro/nightmarkt), 
 
 Node.js, Express, MySQL (`mysql2`), Socket.IO, JSON Web Tokens, bcrypt, Joi
 
-## Getting started
+## Running with Docker
 
-```bash
-npm install
-cp .env.example .env   # fill in your DB credentials and a JWT secret
-npm start
-```
+1. Create a `.env` file in the project root with the following set:
+   DB_HOST=db
+   DB_USER=root
+   DB_PASSWORD=your_password
+   DB_NAME=marketplace
+   JWT_SECRET=your_secret_key
+2. Run `docker compose up --build`
+3. The API will be available at `http://localhost:5001`
 
-The server runs on `http://localhost:5001` by default.
+Both services have healthchecks — the `db` service checks MySQL is accepting
+connections, and the `api` service's `/health` endpoint verifies it can
+actually reach the database (not just that the process is alive). The API
+container won't start until the DB reports healthy
+(`depends_on: condition: service_healthy`), which avoids a race condition
+where the app tries to connect before MySQL is ready.
 
-Run the migrations/schema.sql file to migrate all needed tables. 
+Check status with:
+    docker compose ps
 
-```bash
-mysql -u root -p marketplace < migrations/schema.sql
-```
+Both should show `(healthy)` once fully up.
 
 ## API overview
 
@@ -73,8 +80,25 @@ This project uses Jest and Supertest for API testing, with a separate test datab
 2. Copy `.env` to `.env.test` and change `DB_NAME` to `marketplace_test`
 3. Run `npm test`
 
-## Running with Docker
+This also passes when run inside the `api` container (`docker compose exec api npm test`), confirming the containerized environment matches what the tests expect.
 
-1. Create a `.env` file in the project root with `DB_PASSWORD` and `JWT_SECRET` set
-2. Run `docker compose up --build`
-3. The API will be available at `http://localhost:5001`
+## Getting started without docker
+
+
+1-Create a `.env` file in the project root with the following set:
+  DB_HOST=localhost
+  DB_USER=root
+  DB_PASSWORD=your_password
+  DB_NAME=marketplace
+  JWT_SECRET=your_secret_key
+2-npm install
+3-npm start
+
+
+The server runs on `http://localhost:5001` by default.
+
+Run the migrations/schema.sql file to migrate all needed tables. 
+
+```bash
+mysql -u root -p marketplace < migrations/schema.sql
+```
