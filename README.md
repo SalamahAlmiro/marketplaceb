@@ -84,21 +84,20 @@ This also passes when run inside the `api` container (`docker compose exec api n
 
 ## Getting started without docker
 
-
-1-Create a `.env` file in the project root with the following set:
-  DB_HOST=localhost
-  DB_USER=root
-  DB_PASSWORD=your_password
-  DB_NAME=marketplace
-  JWT_SECRET=your_secret_key
-2-npm install
-3-npm start
+1. Run the migrations/schema.sql file to migrate all needed tables. 
+```bash
+mysql -u root -p marketplace < migrations/schema.sql
+```
+2. Create a `.env` file in the project root with the following set:
+   DB_HOST=localhost
+   DB_USER=root
+   DB_PASSWORD=your_password
+   DB_NAME=marketplace
+   JWT_SECRET=your_secret_key
+3. npm install
+4. npm start
 
 
 The server runs on `http://localhost:5001` by default.
 
-Run the migrations/schema.sql file to migrate all needed tables. 
 
-```bash
-mysql -u root -p marketplace < migrations/schema.sql
-```
